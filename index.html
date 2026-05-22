@@ -229,19 +229,65 @@
       font-style: italic;
     }
 
-    /* ── FRAMEWORK IMAGES ── */
-    .framework-images {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      margin-top: 1rem;
-    }
-    .framework-images img {
-      width: 100%;
-      border-radius: 8px;
+    /* ── FRAMEWORK TABLES ── */
+    .framework-block {
+      margin-top: 1.25rem;
+      background: var(--prompt-bg);
       border: 1px solid var(--border);
-      display: block;
+      border-radius: 8px;
+      overflow: hidden;
     }
+    .framework-block-header {
+      padding: 1rem 1.25rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .framework-block-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.3rem;
+    }
+    .framework-block-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .framework-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .framework-table thead tr {
+      border-bottom: 1px solid var(--border);
+    }
+    .framework-table th {
+      text-align: left;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .framework-table td {
+      padding: 0.7rem 1.25rem;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .framework-table tr:last-child td { border-bottom: none; }
+    .framework-table .fw-letter {
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--accent);
+      width: 2rem;
+    }
+    .framework-table .fw-word {
+      font-weight: 600;
+      white-space: nowrap;
+      width: 8rem;
+    }
+    .framework-table .fw-desc { color: var(--muted); }
 
     /* ── FOOTER ── */
     footer {
@@ -422,12 +468,65 @@
       </div>
     </div>
     <div class="exercise-body">
-      <div class="framework-images">
-        <img src="images/img_1.png"  alt="Exempel på ett välstrukturerat prompt med Context, Goal, Source och Expectations" />
-        <img src="images/img_5.png"  alt="PGTC-ramverket: Persona, Goal, Task, Context" />
-        <img src="images/img_11.png" alt="CRISPY-ramverket: Context, Role, Instruction, Specifics, Parameters, Yielding" />
-        <img src="images/img_14.png" alt="GOAL-ramverket: Goal, Output, Audience, Limitations" />
+
+      <!-- Prompt example image kept as-is -->
+      <div style="margin-top:1rem;">
+        <img src="images/img_1.png" alt="Exempel på ett välstrukturerat prompt" style="width:100%;border-radius:8px;border:1px solid var(--border);display:block;" />
       </div>
+
+      <!-- PGTC -->
+      <div class="framework-block">
+        <div class="framework-block-header">
+          <div class="framework-block-title">PGTC-ramverket</div>
+          <div class="framework-block-desc">Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang.</div>
+        </div>
+        <table class="framework-table">
+          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-letter">P</td><td class="fw-word">Persona</td><td class="fw-desc">Vem är texten för</td></tr>
+            <tr><td class="fw-letter">G</td><td class="fw-word">Goal</td><td class="fw-desc">Vad ska texten uppnå</td></tr>
+            <tr><td class="fw-letter">T</td><td class="fw-word">Task</td><td class="fw-desc">Vad ska AI göra, konkret</td></tr>
+            <tr><td class="fw-letter">C</td><td class="fw-word">Context</td><td class="fw-desc">I vilket sammanhang texten ska användas</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRISPY -->
+      <div class="framework-block">
+        <div class="framework-block-header">
+          <div class="framework-block-title">CRISPY-ramverket</div>
+          <div class="framework-block-desc">Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community).</div>
+        </div>
+        <table class="framework-table">
+          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-letter">C</td><td class="fw-word">Context</td><td class="fw-desc">Ge modellen det sammanhang som krävs för att förstå vilken situation svaret gäller</td></tr>
+            <tr><td class="fw-letter">R</td><td class="fw-word">Role</td><td class="fw-desc">Definiera vem modellen "ska vara" i svaret (ex: Senior Architect, ekonomichef, utvecklare)</td></tr>
+            <tr><td class="fw-letter">I</td><td class="fw-word">Instruction</td><td class="fw-desc">Vad modellen ska göra</td></tr>
+            <tr><td class="fw-letter">S</td><td class="fw-word">Specifics</td><td class="fw-desc">Lägg till faktiska datapunkter, case-detaljer, exempel, kundfakta (det som gör prompten "äkta")</td></tr>
+            <tr><td class="fw-letter">P</td><td class="fw-word">Parameters</td><td class="fw-desc">Regler för format, språk, längd mm</td></tr>
+            <tr><td class="fw-letter">Y</td><td class="fw-word">Yielding</td><td class="fw-desc">Hur vill du ha svaret</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- GOAL -->
+      <div class="framework-block">
+        <div class="framework-block-header">
+          <div class="framework-block-title">GOAL-ramverket</div>
+          <div class="framework-block-desc">Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet.</div>
+        </div>
+        <table class="framework-table">
+          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-letter">G</td><td class="fw-word">Goal</td><td class="fw-desc">Vad är det du försöker åstadkomma? Vad är slutmålet?</td></tr>
+            <tr><td class="fw-letter">O</td><td class="fw-word">Output</td><td class="fw-desc">Hur vill du att svaret ska se ut (format, tabell, steg, roll)?</td></tr>
+            <tr><td class="fw-letter">A</td><td class="fw-word">Audience</td><td class="fw-desc">Vem är svaret ämnat för (ex: CIO, utvecklare, junior tekniker)?</td></tr>
+            <tr><td class="fw-letter">L</td><td class="fw-word">Limitations</td><td class="fw-desc">Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   </article>
 
