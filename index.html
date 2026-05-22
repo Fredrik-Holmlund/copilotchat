@@ -48,7 +48,6 @@
       gap: 0.65rem;
       font-weight: 700;
       font-size: 1.05rem;
-      letter-spacing: 0.01em;
       color: var(--text);
       text-decoration: none;
     }
@@ -66,6 +65,28 @@
       padding: 0.35rem 0.9rem;
       border-radius: 999px;
       white-space: nowrap;
+    }
+    .lang-toggle {
+      display: flex;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .lang-toggle button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lang-toggle button.active {
+      background: var(--accent);
+      color: white;
     }
 
     /* ── HERO ── */
@@ -127,7 +148,6 @@
       gap: 1rem;
       padding: 1.25rem 1.5rem;
     }
-
     .ex-number {
       width: 36px;
       height: 36px;
@@ -145,7 +165,6 @@
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: white;
     }
-
     .ex-title-wrap { flex: 1; }
     .ex-label {
       font-size: 0.7rem;
@@ -166,7 +185,6 @@
     /* ── PROMPT BLOCK ── */
     .prompt-group { margin-top: 1.25rem; }
     .prompt-group:first-child { margin-top: 1rem; }
-
     .prompt-label {
       font-size: 0.75rem;
       font-weight: 600;
@@ -175,7 +193,6 @@
       color: var(--muted);
       margin-bottom: 0.5rem;
     }
-
     .prompt-box {
       display: flex;
       flex-direction: column;
@@ -202,7 +219,6 @@
       color: #a78bfa;
       font-style: italic;
     }
-
     .copy-btn {
       align-self: flex-end;
       background: var(--surface2);
@@ -257,9 +273,7 @@
       border-collapse: collapse;
       font-size: 0.875rem;
     }
-    .framework-table thead tr {
-      border-bottom: 1px solid var(--border);
-    }
+    .framework-table thead tr { border-bottom: 1px solid var(--border); }
     .framework-table th {
       text-align: left;
       padding: 0.65rem 1.25rem;
@@ -282,11 +296,7 @@
       color: var(--accent);
       width: 2rem;
     }
-    .framework-table .fw-word {
-      font-weight: 600;
-      white-space: nowrap;
-      width: 8rem;
-    }
+    .framework-table .fw-word { font-weight: 600; white-space: nowrap; width: 8rem; }
     .framework-table .fw-desc { color: var(--muted); }
 
     /* ── FOOTER ── */
@@ -299,9 +309,11 @@
     }
 
     @media (max-width: 600px) {
-      nav { padding: 0 1rem; }
+      nav { padding: 0 1rem; gap: 0.75rem; }
       .hero, main { padding-left: 1rem; padding-right: 1rem; }
       .hero { padding-top: 3rem; }
+      .nav-badge { display: none; }
+      .framework-table .fw-word { width: auto; }
     }
   </style>
 </head>
@@ -314,179 +326,247 @@
   </a>
   <div class="spacer"></div>
   <span class="nav-badge">Copilot Chat Training</span>
+  <div class="lang-toggle">
+    <button id="btn-sv" class="active" onclick="setLang('sv')">SV</button>
+    <button id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-tag">
     <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 2a5 5 0 1 1 0 10A5 5 0 0 1 8 3zm0 2a1 1 0 0 0-1 1v2.586L5.707 9.879a1 1 0 1 0 1.414 1.414L8.707 9.707A1 1 0 0 0 9 9V8a1 1 0 0 0-1-1z"/></svg>
-    Kursmaterial
+    <span data-sv="Kursmaterial" data-en="Course Material">Kursmaterial</span>
   </div>
   <h1>Copilot Chat<br /><span>Training</span></h1>
-  <p>Här hittar du alla prompts som används under kursen. Kopiera dem direkt och fyll i de blå fälten med dina egna uppgifter.</p>
+  <p data-sv="Här hittar du alla prompts som används under kursen. Kopiera dem direkt och fyll i de gulmarkerade fälten med dina egna uppgifter."
+     data-en="Here you'll find all the prompts used during the course. Copy them directly and fill in the highlighted fields with your own details.">
+    Här hittar du alla prompts som används under kursen. Kopiera dem direkt och fyll i de gulmarkerade fälten med dina egna uppgifter.
+  </p>
 </section>
 
 <!-- EXERCISES -->
 <main>
 
-  <!-- Övning 1 -->
+  <!-- Exercise 1 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">1</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 1</div>
-        <div class="ex-title">Svara på ett mejl</div>
+        <div class="ex-label" data-sv="Övning 1" data-en="Exercise 1">Övning 1</div>
+        <div class="ex-title" data-sv="Svara på ett mejl" data-en="Reply to an email">Svara på ett mejl</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt 1</div>
+        <div class="prompt-label" data-sv="Prompt 1" data-en="Prompt 1">Prompt 1</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Svara på detta mejl: <span class="placeholder">[klistra in mailet här]</span></pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Svara på detta mejl: [klistra in mailet här]')">
+          <pre class="prompt-text"
+            data-sv="Svara på detta mejl: <span class='placeholder'>[klistra in mailet här]</span>"
+            data-en="Reply to this email: <span class='placeholder'>[paste the email here]</span>"
+          >Svara på detta mejl: <span class="placeholder">[klistra in mailet här]</span></pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
       </div>
       <div class="prompt-group">
-        <div class="prompt-label">Prompt 2 – Förfina svaret</div>
+        <div class="prompt-label"
+          data-sv="Prompt 2 – Förfina svaret"
+          data-en="Prompt 2 – Refine the response">Prompt 2 – Förfina svaret</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad.')">
+          <pre class="prompt-text"
+            data-sv="Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad."
+            data-en="Suggest three versions: shorter and more concise, more professional tone, and more engaging and action-oriented."
+          >Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
       </div>
     </div>
   </article>
 
-  <!-- Övning 3 -->
+  <!-- Exercise 3 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">3</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 3</div>
-        <div class="ex-title">Förbered ett möte</div>
+        <div class="ex-label" data-sv="Övning 3" data-en="Exercise 3">Övning 3</div>
+        <div class="ex-title" data-sv="Förbered ett möte" data-en="Prepare for a meeting">Förbered ett möte</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt</div>
+        <div class="prompt-label" data-sv="Prompt" data-en="Prompt">Prompt</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Jag har ett möte om <span class="placeholder">[Ämne]</span>, min roll är <span class="placeholder">[Din Position]</span>. Dagordningen för mötet är <span class="placeholder">[Dagordningspunkter]</span>. Vad ska jag förbereda?</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Jag har ett möte om [Ämne], min roll är [Din Position]. Dagordningen för mötet är [Dagordningspunkter]. Vad ska jag förbereda?')">
+          <pre class="prompt-text"
+            data-sv="Jag har ett möte om <span class='placeholder'>[Ämne]</span>, min roll är <span class='placeholder'>[Din Position]</span>. Dagordningen för mötet är <span class='placeholder'>[Dagordningspunkter]</span>. Vad ska jag förbereda?"
+            data-en="I have a meeting about <span class='placeholder'>[Topic]</span>, my role is <span class='placeholder'>[Your Position]</span>. The agenda for the meeting is <span class='placeholder'>[Agenda Items]</span>. What should I prepare?"
+          >Jag har ett möte om <span class="placeholder">[Ämne]</span>, min roll är <span class="placeholder">[Din Position]</span>. Dagordningen för mötet är <span class="placeholder">[Dagordningspunkter]</span>. Vad ska jag förbereda?</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
-        <p class="exercise-note">Ersätt de blå fälten med dina egna uppgifter innan du skickar prompten.</p>
+        <p class="exercise-note"
+          data-sv="Ersätt de gulmarkerade fälten med dina egna uppgifter innan du skickar prompten."
+          data-en="Replace the highlighted fields with your own details before sending the prompt.">
+          Ersätt de gulmarkerade fälten med dina egna uppgifter innan du skickar prompten.
+        </p>
       </div>
     </div>
   </article>
 
-  <!-- Övning 4 -->
+  <!-- Exercise 4 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">4</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 4</div>
-        <div class="ex-title">Testa AI:ns bias</div>
+        <div class="ex-label" data-sv="Övning 4" data-en="Exercise 4">Övning 4</div>
+        <div class="ex-title" data-sv="Testa AI:ns bias" data-en="Test AI bias">Testa AI:ns bias</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt</div>
+        <div class="prompt-label" data-sv="Prompt" data-en="Prompt">Prompt</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Skriv en historia om en ingenjör och en sjuksköterska.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Skriv en historia om en ingenjör och en sjuksköterska.')">
+          <pre class="prompt-text"
+            data-sv="Skriv en historia om en ingenjör och en sjuksköterska."
+            data-en="Write a story about an engineer and a nurse."
+          >Skriv en historia om en ingenjör och en sjuksköterska.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
-        <p class="exercise-note">Analysera hur AI:n väljer kön för respektive roll. Vad säger det om träningsdatan?</p>
+        <p class="exercise-note"
+          data-sv="Analysera hur AI:n väljer kön för respektive roll. Vad säger det om träningsdatan?"
+          data-en="Analyze how the AI assigns gender to each role. What does this say about the training data?">
+          Analysera hur AI:n väljer kön för respektive roll. Vad säger det om träningsdatan?
+        </p>
       </div>
     </div>
   </article>
 
-  <!-- Övning 5 -->
+  <!-- Exercise 5 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">5</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 5</div>
-        <div class="ex-title">Bildgenerering</div>
+        <div class="ex-label" data-sv="Övning 5" data-en="Exercise 5">Övning 5</div>
+        <div class="ex-title" data-sv="Bildgenerering" data-en="Image generation">Bildgenerering</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt</div>
+        <div class="prompt-label" data-sv="Prompt" data-en="Prompt">Prompt</div>
         <div class="prompt-box">
-          <pre class="prompt-text"><em>Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.</em></pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.')">
+          <pre class="prompt-text"
+            data-sv="<em>Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.</em>"
+            data-en="<em>A child in a yellow raincoat stands in a flooded old library, shining a flashlight at an enormous frog hiding in the darkness, with a magical, serene and colorful atmosphere, photorealistic, cinematic, soft light.</em>"
+          ><em>Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.</em></pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
-        <p class="exercise-note">Prova att generera bilden i Copilot och experimentera sedan med att ändra detaljer i prompten.</p>
+        <p class="exercise-note"
+          data-sv="Prova att generera bilden i Copilot och experimentera sedan med att ändra detaljer i prompten."
+          data-en="Try generating the image in Copilot and then experiment with changing details in the prompt.">
+          Prova att generera bilden i Copilot och experimentera sedan med att ändra detaljer i prompten.
+        </p>
       </div>
     </div>
   </article>
 
-  <!-- Övning 6 -->
+  <!-- Exercise 6 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">6</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 6</div>
-        <div class="ex-title">Skapa en quiz i PowerPoint</div>
+        <div class="ex-label" data-sv="Övning 6" data-en="Exercise 6">Övning 6</div>
+        <div class="ex-title" data-sv="Skapa en quiz i PowerPoint" data-en="Create a quiz in PowerPoint">Skapa en quiz i PowerPoint</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt</div>
+        <div class="prompt-label" data-sv="Prompt" data-en="Prompt">Prompt</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Skapa en 5-fråge quiz om <span class="placeholder">[ämne du kan]</span> i PowerPoint.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en 5-fråge quiz om [ämne du kan] i PowerPoint.')">
+          <pre class="prompt-text"
+            data-sv="Skapa en 5-fråge quiz om <span class='placeholder'>[ämne du kan]</span> i PowerPoint."
+            data-en="Create a 5-question quiz about <span class='placeholder'>[topic you know]</span> in PowerPoint."
+          >Skapa en 5-fråge quiz om <span class="placeholder">[ämne du kan]</span> i PowerPoint.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
-        <p class="exercise-note">Välj ett ämne du kan bra — det gör det enklare att bedöma kvaliteten på frågorna.</p>
+        <p class="exercise-note"
+          data-sv="Välj ett ämne du kan bra — det gör det enklare att bedöma kvaliteten på frågorna."
+          data-en="Choose a topic you know well — it makes it easier to evaluate the quality of the questions.">
+          Välj ett ämne du kan bra — det gör det enklare att bedöma kvaliteten på frågorna.
+        </p>
       </div>
     </div>
   </article>
 
-  <!-- Övning 7 -->
+  <!-- Exercise 7 -->
   <article class="exercise">
     <div class="exercise-header">
       <div class="ex-number">7</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Övning 7</div>
-        <div class="ex-title">Ramverk för bra prompts</div>
+        <div class="ex-label" data-sv="Övning 7" data-en="Exercise 7">Övning 7</div>
+        <div class="ex-title" data-sv="Ramverk för bra prompts" data-en="Frameworks for better prompts">Ramverk för bra prompts</div>
       </div>
     </div>
     <div class="exercise-body">
 
-      <!-- Prompt example image kept as-is -->
       <div style="margin-top:1rem;">
-        <img src="images/img_1.png" alt="Exempel på ett välstrukturerat prompt" style="width:100%;border-radius:8px;border:1px solid var(--border);display:block;" />
+        <img src="images/img_1.png" alt="Prompt example" style="width:100%;border-radius:8px;border:1px solid var(--border);display:block;" />
       </div>
 
       <!-- PGTC -->
       <div class="framework-block">
         <div class="framework-block-header">
-          <div class="framework-block-title">PGTC-ramverket</div>
-          <div class="framework-block-desc">Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang.</div>
+          <div class="framework-block-title" data-sv="PGTC-ramverket" data-en="The PGTC Framework">PGTC-ramverket</div>
+          <div class="framework-block-desc"
+            data-sv="Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang."
+            data-en="Use case: Conversion copywriting. Ensuring the right persona, goal, task, and context. Primarily for marketing and copywriting scenarios.">
+            Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang.
+          </div>
         </div>
         <table class="framework-table">
-          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <thead>
+            <tr>
+              <th data-sv="Bokstav" data-en="Letter">Bokstav</th>
+              <th data-sv="Betydelse" data-en="Meaning">Betydelse</th>
+              <th data-sv="Beskrivning" data-en="Description">Beskrivning</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td class="fw-letter">P</td><td class="fw-word">Persona</td><td class="fw-desc">Vem är texten för</td></tr>
-            <tr><td class="fw-letter">G</td><td class="fw-word">Goal</td><td class="fw-desc">Vad ska texten uppnå</td></tr>
-            <tr><td class="fw-letter">T</td><td class="fw-word">Task</td><td class="fw-desc">Vad ska AI göra, konkret</td></tr>
-            <tr><td class="fw-letter">C</td><td class="fw-word">Context</td><td class="fw-desc">I vilket sammanhang texten ska användas</td></tr>
+            <tr>
+              <td class="fw-letter">P</td>
+              <td class="fw-word">Persona</td>
+              <td class="fw-desc" data-sv="Vem är texten för" data-en="Who the text is for">Vem är texten för</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">G</td>
+              <td class="fw-word">Goal</td>
+              <td class="fw-desc" data-sv="Vad ska texten uppnå" data-en="What the text should achieve">Vad ska texten uppnå</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">T</td>
+              <td class="fw-word">Task</td>
+              <td class="fw-desc" data-sv="Vad ska AI göra, konkret" data-en="What the AI should do, concretely">Vad ska AI göra, konkret</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">C</td>
+              <td class="fw-word">Context</td>
+              <td class="fw-desc" data-sv="I vilket sammanhang texten ska användas" data-en="The context in which the text will be used">I vilket sammanhang texten ska användas</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -494,18 +574,52 @@
       <!-- CRISPY -->
       <div class="framework-block">
         <div class="framework-block-header">
-          <div class="framework-block-title">CRISPY-ramverket</div>
-          <div class="framework-block-desc">Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community).</div>
+          <div class="framework-block-title" data-sv="CRISPY-ramverket" data-en="The CRISPY Framework">CRISPY-ramverket</div>
+          <div class="framework-block-desc"
+            data-sv="Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community)."
+            data-en="Break down a prompt into context, role, instructions, specifics, and parameters – for a robust structure. Created by Flux+Form (AI Copywriting / Prompting community).">
+            Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community).
+          </div>
         </div>
         <table class="framework-table">
-          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <thead>
+            <tr>
+              <th data-sv="Bokstav" data-en="Letter">Bokstav</th>
+              <th data-sv="Betydelse" data-en="Meaning">Betydelse</th>
+              <th data-sv="Beskrivning" data-en="Description">Beskrivning</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td class="fw-letter">C</td><td class="fw-word">Context</td><td class="fw-desc">Ge modellen det sammanhang som krävs för att förstå vilken situation svaret gäller</td></tr>
-            <tr><td class="fw-letter">R</td><td class="fw-word">Role</td><td class="fw-desc">Definiera vem modellen "ska vara" i svaret (ex: Senior Architect, ekonomichef, utvecklare)</td></tr>
-            <tr><td class="fw-letter">I</td><td class="fw-word">Instruction</td><td class="fw-desc">Vad modellen ska göra</td></tr>
-            <tr><td class="fw-letter">S</td><td class="fw-word">Specifics</td><td class="fw-desc">Lägg till faktiska datapunkter, case-detaljer, exempel, kundfakta (det som gör prompten "äkta")</td></tr>
-            <tr><td class="fw-letter">P</td><td class="fw-word">Parameters</td><td class="fw-desc">Regler för format, språk, längd mm</td></tr>
-            <tr><td class="fw-letter">Y</td><td class="fw-word">Yielding</td><td class="fw-desc">Hur vill du ha svaret</td></tr>
+            <tr>
+              <td class="fw-letter">C</td>
+              <td class="fw-word">Context</td>
+              <td class="fw-desc" data-sv="Ge modellen det sammanhang som krävs för att förstå vilken situation svaret gäller" data-en="Give the model the context needed to understand which situation the response applies to">Ge modellen det sammanhang som krävs för att förstå vilken situation svaret gäller</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">R</td>
+              <td class="fw-word">Role</td>
+              <td class="fw-desc" data-sv='Definiera vem modellen "ska vara" i svaret (ex: Senior Architect, ekonomichef, utvecklare)' data-en='Define who the model "should be" in the response (e.g. Senior Architect, CFO, developer)'>Definiera vem modellen "ska vara" i svaret (ex: Senior Architect, ekonomichef, utvecklare)</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">I</td>
+              <td class="fw-word">Instruction</td>
+              <td class="fw-desc" data-sv="Vad modellen ska göra" data-en="What the model should do">Vad modellen ska göra</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">S</td>
+              <td class="fw-word">Specifics</td>
+              <td class="fw-desc" data-sv='Lägg till faktiska datapunkter, case-detaljer, exempel, kundfakta (det som gör prompten "äkta")' data-en='Add actual data points, case details, examples, client facts (what makes the prompt "real")'>Lägg till faktiska datapunkter, case-detaljer, exempel, kundfakta (det som gör prompten "äkta")</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">P</td>
+              <td class="fw-word">Parameters</td>
+              <td class="fw-desc" data-sv="Regler för format, språk, längd mm" data-en="Rules for format, language, length etc.">Regler för format, språk, längd mm</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">Y</td>
+              <td class="fw-word">Yielding</td>
+              <td class="fw-desc" data-sv="Hur vill du ha svaret" data-en="How do you want the response delivered">Hur vill du ha svaret</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -513,16 +627,42 @@
       <!-- GOAL -->
       <div class="framework-block">
         <div class="framework-block-header">
-          <div class="framework-block-title">GOAL-ramverket</div>
-          <div class="framework-block-desc">Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet.</div>
+          <div class="framework-block-title" data-sv="GOAL-ramverket" data-en="The GOAL Framework">GOAL-ramverket</div>
+          <div class="framework-block-desc"
+            data-sv="Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet."
+            data-en="A simple framework for quick prompts. Based on best practices and used e.g. to create the quiz example.">
+            Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet.
+          </div>
         </div>
         <table class="framework-table">
-          <thead><tr><th>Bokstav</th><th>Betydelse</th><th>Beskrivning</th></tr></thead>
+          <thead>
+            <tr>
+              <th data-sv="Bokstav" data-en="Letter">Bokstav</th>
+              <th data-sv="Betydelse" data-en="Meaning">Betydelse</th>
+              <th data-sv="Beskrivning" data-en="Description">Beskrivning</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><td class="fw-letter">G</td><td class="fw-word">Goal</td><td class="fw-desc">Vad är det du försöker åstadkomma? Vad är slutmålet?</td></tr>
-            <tr><td class="fw-letter">O</td><td class="fw-word">Output</td><td class="fw-desc">Hur vill du att svaret ska se ut (format, tabell, steg, roll)?</td></tr>
-            <tr><td class="fw-letter">A</td><td class="fw-word">Audience</td><td class="fw-desc">Vem är svaret ämnat för (ex: CIO, utvecklare, junior tekniker)?</td></tr>
-            <tr><td class="fw-letter">L</td><td class="fw-word">Limitations</td><td class="fw-desc">Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?</td></tr>
+            <tr>
+              <td class="fw-letter">G</td>
+              <td class="fw-word">Goal</td>
+              <td class="fw-desc" data-sv="Vad är det du försöker åstadkomma? Vad är slutmålet?" data-en="What are you trying to accomplish? What is the end goal?">Vad är det du försöker åstadkomma? Vad är slutmålet?</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">O</td>
+              <td class="fw-word">Output</td>
+              <td class="fw-desc" data-sv="Hur vill du att svaret ska se ut (format, tabell, steg, roll)?" data-en="How do you want the response to look (format, table, steps, role)?">Hur vill du att svaret ska se ut (format, tabell, steg, roll)?</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">A</td>
+              <td class="fw-word">Audience</td>
+              <td class="fw-desc" data-sv="Vem är svaret ämnat för (ex: CIO, utvecklare, junior tekniker)?" data-en="Who is the response intended for (e.g. CIO, developer, junior technician)?">Vem är svaret ämnat för (ex: CIO, utvecklare, junior tekniker)?</td>
+            </tr>
+            <tr>
+              <td class="fw-letter">L</td>
+              <td class="fw-word">Limitations</td>
+              <td class="fw-desc" data-sv="Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?" data-en="What limitations apply (e.g. no emojis, max 200 words, English only)?">Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -530,46 +670,59 @@
     </div>
   </article>
 
-  <!-- Bonus-Övning 8 -->
+  <!-- Bonus Exercise 8 -->
   <article class="exercise bonus">
     <div class="exercise-header">
       <div class="ex-number">B</div>
       <div class="ex-title-wrap">
-        <div class="ex-label">Bonus-Övning 8</div>
-        <div class="ex-title">Analysera Excel-filer</div>
+        <div class="ex-label" data-sv="Bonus-Övning 8" data-en="Bonus Exercise 8">Bonus-Övning 8</div>
+        <div class="ex-title" data-sv="Analysera Excel-filer" data-en="Analyze Excel files">Analysera Excel-filer</div>
       </div>
     </div>
     <div class="exercise-body">
       <div class="prompt-group">
-        <div class="prompt-label">Prompt 1 – Skapa budgetfil</div>
+        <div class="prompt-label" data-sv="Prompt 1 – Skapa budgetfil" data-en="Prompt 1 – Create budget file">Prompt 1 – Skapa budgetfil</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.')">
+          <pre class="prompt-text"
+            data-sv="Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader."
+            data-en="Create an Excel table for a monthly budget with columns: category, budget, actual cost, difference. Fill with example data for 10 rows."
+          >Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
       </div>
       <div class="prompt-group">
-        <div class="prompt-label">Prompt 2 – Skapa en till fil</div>
+        <div class="prompt-label" data-sv="Prompt 2 – Skapa en till fil" data-en="Prompt 2 – Create another file">Prompt 2 – Skapa en till fil</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader.')">
+          <pre class="prompt-text"
+            data-sv="Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader."
+            data-en="Create a similar Excel file but with figures from a different month and slightly different costs."
+          >Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
       </div>
       <div class="prompt-group">
-        <div class="prompt-label">Prompt 3 – Jämför filerna</div>
+        <div class="prompt-label" data-sv="Prompt 3 – Jämför filerna" data-en="Prompt 3 – Compare the files">Prompt 3 – Jämför filerna</div>
         <div class="prompt-box">
-          <pre class="prompt-text">Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer.</pre>
-          <button class="copy-btn" onclick="copyPrompt(this, 'Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer.')">
+          <pre class="prompt-text"
+            data-sv="Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer."
+            data-en="Compare file 1 and file 2. Summarize the biggest changes and provide three insights or recommendations."
+          >Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Kopiera
+            <span data-sv="Kopiera" data-en="Copy">Kopiera</span>
           </button>
         </div>
-        <p class="exercise-note">Ladda upp båda Excel-filerna till Copilot och kör sedan denna prompt.</p>
+        <p class="exercise-note"
+          data-sv="Ladda upp båda Excel-filerna till Copilot och kör sedan denna prompt."
+          data-en="Upload both Excel files to Copilot and then run this prompt.">
+          Ladda upp båda Excel-filerna till Copilot och kör sedan denna prompt.
+        </p>
       </div>
     </div>
   </article>
@@ -582,13 +735,28 @@
 </footer>
 
 <script>
-  function copyPrompt(btn, text) {
+  var currentLang = 'sv';
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+    document.querySelectorAll('[data-sv][data-en]').forEach(function(el) {
+      el.innerHTML = el.dataset[lang];
+    });
+  }
+
+  function copyPrompt(btn) {
+    var text = btn.closest('.prompt-box').querySelector('.prompt-text').textContent;
+
     function showCopied() {
       btn.classList.add('copied');
-      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Kopierat!';
-      setTimeout(() => {
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> ' + (currentLang === 'sv' ? 'Kopierat!' : 'Copied!');
+      setTimeout(function() {
         btn.classList.remove('copied');
-        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Kopiera';
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> <span data-sv="Kopiera" data-en="Copy">' + (currentLang === 'sv' ? 'Kopiera' : 'Copy') + '</span>';
       }, 2000);
     }
 
