@@ -76,17 +76,15 @@
     .lang-toggle button {
       background: none;
       border: none;
-      color: var(--muted);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      padding: 0.35rem 0.7rem;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 0.3rem 0.55rem;
       cursor: pointer;
-      transition: all 0.15s;
+      opacity: 0.4;
+      transition: opacity 0.15s;
     }
     .lang-toggle button.active {
-      background: var(--accent);
-      color: white;
+      opacity: 1;
     }
 
     /* ── HERO ── */
@@ -327,8 +325,8 @@
   <div class="spacer"></div>
   <span class="nav-badge">Copilot Chat Training</span>
   <div class="lang-toggle">
-    <button id="btn-sv" class="active" onclick="setLang('sv')">SV</button>
-    <button id="btn-en" onclick="setLang('en')">EN</button>
+    <button id="btn-sv" class="active" onclick="setLang('sv')" title="Svenska">🇸🇪</button>
+    <button id="btn-en" onclick="setLang('en')" title="English">🇬🇧</button>
   </div>
 </nav>
 
@@ -534,7 +532,7 @@
           <div class="framework-block-title" data-sv="PGTC-ramverket" data-en="The PGTC Framework">PGTC-ramverket</div>
           <div class="framework-block-desc"
             data-sv="Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang."
-            data-en="Use case: Conversion copywriting. Ensuring the right persona, goal, task, and context. Primarily for marketing and copywriting scenarios.">
+            data-en="Use case: Conversion copywriting — ensuring the right persona, goal, task, and context. Primarily used in marketing and copywriting.">
             Användning: Conversion copywriting. Säkerställa rätt persona, rätt mål, rätt uppgift, rätt kontext. Främst i marknads-/copy-sammanhang.
           </div>
         </div>
@@ -577,7 +575,7 @@
           <div class="framework-block-title" data-sv="CRISPY-ramverket" data-en="The CRISPY Framework">CRISPY-ramverket</div>
           <div class="framework-block-desc"
             data-sv="Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community)."
-            data-en="Break down a prompt into context, role, instructions, specifics, and parameters – for a robust structure. Created by Flux+Form (AI Copywriting / Prompting community).">
+            data-en="Breaks a prompt down into context, role, instructions, specifics, parameters, and yielding — for a robust and repeatable structure. Created by Flux+Form (AI Copywriting / Prompting community).">
             Bryta ner en prompt i kontext, roll, instruktioner, steg och parametrar – för att få robust struktur. Skapat av Flux+Form (AI Copywriting / Prompting community).
           </div>
         </div>
@@ -630,7 +628,7 @@
           <div class="framework-block-title" data-sv="GOAL-ramverket" data-en="The GOAL Framework">GOAL-ramverket</div>
           <div class="framework-block-desc"
             data-sv="Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet."
-            data-en="A simple framework for quick prompts. Based on best practices and used e.g. to create the quiz example.">
+            data-en="A simple framework for quick prompts, based on best practices — used e.g. to create the quiz example above.">
             Ett enkelt ramverk för snabba prompter. Skapat av egen bästa-praxis och användes t.ex. för att skapa quiz-exemplet.
           </div>
         </div>
@@ -661,7 +659,7 @@
             <tr>
               <td class="fw-letter">L</td>
               <td class="fw-word">Limitations</td>
-              <td class="fw-desc" data-sv="Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?" data-en="What limitations apply (e.g. no emojis, max 200 words, English only)?">Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?</td>
+              <td class="fw-desc" data-sv="Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?" data-en="What limitations apply (e.g. no emojis, max 200 words, one language only)?">Vilka begränsningar finns (ex: inga emojis, max 200 ord, bara svenska)?</td>
             </tr>
           </tbody>
         </table>
@@ -685,7 +683,7 @@
         <div class="prompt-box">
           <pre class="prompt-text"
             data-sv="Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader."
-            data-en="Create an Excel table for a monthly budget with columns: category, budget, actual cost, difference. Fill with example data for 10 rows."
+            data-en="Create an Excel table for a monthly budget with columns: category, budget, actual cost, and difference. Fill it with example data for 10 rows."
           >Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.</pre>
           <button class="copy-btn" onclick="copyPrompt(this)">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
