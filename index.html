@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot Chat Training – Kursmaterial | Asurgent</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1623;
+      --surface:   #132035;
+      --surface2:  #1a2d47;
+      --border:    #1e3352;
+      --accent:    #4f8ef7;
+      --accent2:   #6366f1;
+      --text:      #f0f4ff;
+      --muted:     #8ba3c4;
+      --tag-bg:    #1e3352;
+      --prompt-bg: #0a1220;
+    }
+
+    body {
+      font-family: "Segoe UI", Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2rem;
+      height: 64px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    nav .spacer { flex: 1; }
+    .nav-badge {
+      background: white;
+      color: #0d1623;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--tag-bg);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.1rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap {
+      max-width: 860px;
+      margin: 0 auto 0.5rem;
+      padding: 0 2rem;
+    }
+    .progress-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* ── EXERCISE CARD ── */
+    .exercise {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .exercise:hover { border-color: var(--accent2); }
+    .exercise.bonus { border-color: #6366f120; }
+    .exercise.bonus:hover { border-color: #6366f1; }
+
+    .exercise-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .exercise-header:hover { background: var(--surface2); }
+
+    .ex-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .exercise.bonus .ex-number {
+      background: linear-gradient(135deg, #a855f7, #6366f1);
+    }
+
+    .ex-title-wrap { flex: 1; }
+    .ex-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.15rem;
+    }
+    .exercise.bonus .ex-label { color: #a855f7; }
+    .ex-title { font-weight: 700; font-size: 1rem; }
+
+    .ex-chevron {
+      color: var(--muted);
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+    .exercise.open .ex-chevron { transform: rotate(180deg); }
+
+    .exercise-body {
+      display: none;
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .exercise.open .exercise-body { display: block; }
+
+    /* ── PROMPT BLOCK ── */
+    .prompt-group { margin-top: 1.25rem; }
+    .prompt-group:first-child { margin-top: 1rem; }
+
+    .prompt-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .prompt-box {
+      position: relative;
+      background: var(--prompt-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 3.5rem 1rem 1rem;
+    }
+    .prompt-text {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .prompt-text .placeholder {
+      color: var(--accent);
+      font-weight: 600;
+      background: #4f8ef715;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+    .prompt-text em {
+      color: #a78bfa;
+      font-style: italic;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .copy-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .copy-btn.copied { background: #22c55e; color: white; border-color: #22c55e; }
+
+    .exercise-note {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── FRAMEWORK CARD ── */
+    .framework-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .fw-card {
+      background: var(--prompt-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .fw-card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .fw-card-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .fw-card-desc { font-size: 0.82rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .hero, main { padding-left: 1rem; padding-right: 1rem; }
+      .progress-wrap { padding: 0 1rem; }
+      .hero { padding-top: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg width="22" height="22" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 4C14 4 8 9 8 16c0 4 2 7.5 5 10l7 8 7-8c3-2.5 5-6 5-10 0-7-6-12-12-12z" fill="white" opacity="0.9"/>
+      <path d="M20 4 L14 14 L20 12 L26 14 Z" fill="#4f8ef7"/>
+    </svg>
+    Asurgent
+  </a>
+  <div class="spacer"></div>
+  <span class="nav-badge">Copilot Chat Training</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">
+    <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 2a5 5 0 1 1 0 10A5 5 0 0 1 8 3zm0 2a1 1 0 0 0-1 1v2.586L5.707 9.879a1 1 0 1 0 1.414 1.414L8.707 9.707A1 1 0 0 0 9 9V8a1 1 0 0 0-1-1z"/></svg>
+    Kursmaterial
+  </div>
+  <h1>Copilot Chat<br /><span>Training</span></h1>
+  <p>Här hittar du alla prompts som används under kursen. Klicka på en övning för att expandera den och kopiera prompten direkt.</p>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Ditt framsteg</span>
+    <span id="progress-text">0 av 8 övningar</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<!-- EXERCISES -->
+<main>
+
+  <!-- Övning 1 -->
+  <article class="exercise" id="ex1">
+    <div class="exercise-header" onclick="toggleExercise('ex1')">
+      <div class="ex-number">1</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 1</div>
+        <div class="ex-title">Svara på ett mejl</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt 1</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Svara på detta mejl: <span class="placeholder">[klistra in mailet här]</span></pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Svara på detta mejl: [klistra in mailet här]')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+      </div>
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt 2 – Förfina svaret</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Föreslå tre versioner: kortare och mer koncis, mer professionell ton och mer engagerande och handlingsinriktad.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Övning 3 -->
+  <article class="exercise" id="ex3">
+    <div class="exercise-header" onclick="toggleExercise('ex3')">
+      <div class="ex-number">3</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 3</div>
+        <div class="ex-title">Förbered ett möte</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Jag har ett möte om <span class="placeholder">[Ämne]</span>, min roll är <span class="placeholder">[Din Position]</span>. Dagordningen för mötet är <span class="placeholder">[Dagordningspunkter]</span>. Vad ska jag förbereda?</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Jag har ett möte om [Ämne], min roll är [Din Position]. Dagordningen för mötet är [Dagordningspunkter]. Vad ska jag förbereda?')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+        <p class="exercise-note">Ersätt de blå fälten med dina egna uppgifter innan du skickar prompten.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Övning 4 -->
+  <article class="exercise" id="ex4">
+    <div class="exercise-header" onclick="toggleExercise('ex4')">
+      <div class="ex-number">4</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 4</div>
+        <div class="ex-title">Testa AI:ns bias</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Skriv en historia om en ingenjör och en sjuksköterska.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Skriv en historia om en ingenjör och en sjuksköterska.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+        <p class="exercise-note">Analysera hur AI:n väljer kön för respektive roll. Vad säger det om träningsdatan?</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Övning 5 -->
+  <article class="exercise" id="ex5">
+    <div class="exercise-header" onclick="toggleExercise('ex5')">
+      <div class="ex-number">5</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 5</div>
+        <div class="ex-title">Bildgenerering</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt</div>
+        <div class="prompt-box">
+          <pre class="prompt-text"><em>Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.</em></pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Ett barn i gul regnrock står i ett översvämmat gammalt bibliotek och lyser med en ficklampa mot en enorm groda som döljer sig i mörkret, med en magisk, stillsam och färgglad stämning, fotorealistiskt, filmiskt, mjukt ljus.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+        <p class="exercise-note">Prova att generera bilden i Copilot och experimentera sedan med att ändra detaljer i prompten.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Övning 6 -->
+  <article class="exercise" id="ex6">
+    <div class="exercise-header" onclick="toggleExercise('ex6')">
+      <div class="ex-number">6</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 6</div>
+        <div class="ex-title">Skapa en quiz i PowerPoint</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Skapa en 5-fråge quiz om <span class="placeholder">[ämne du kan]</span> i PowerPoint.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en 5-fråge quiz om [ämne du kan] i PowerPoint.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+        <p class="exercise-note">Välj ett ämne du kan bra — det gör det enklare att bedöma kvaliteten på frågorna.</p>
+      </div>
+    </div>
+  </article>
+
+  <!-- Övning 7 -->
+  <article class="exercise" id="ex7">
+    <div class="exercise-header" onclick="toggleExercise('ex7')">
+      <div class="ex-number">7</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Övning 7</div>
+        <div class="ex-title">Ramverk för bra prompts</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <p style="color:var(--muted); font-size:0.88rem; margin-top:1rem; margin-bottom:0.75rem;">
+        Använd detta ramverk som checklista när du skriver prompts för att alltid få bättre resultat.
+      </p>
+      <div class="framework-grid">
+        <div class="fw-card">
+          <div class="fw-card-label">R</div>
+          <div class="fw-card-title">Roll</div>
+          <div class="fw-card-desc">Ge AI:n en roll — "Du är en erfaren jurist..."</div>
+        </div>
+        <div class="fw-card">
+          <div class="fw-card-label">A</div>
+          <div class="fw-card-title">Avsikt</div>
+          <div class="fw-card-desc">Vad vill du uppnå? Var tydlig med målet.</div>
+        </div>
+        <div class="fw-card">
+          <div class="fw-card-label">M</div>
+          <div class="fw-card-title">Material</div>
+          <div class="fw-card-desc">Ge relevant kontext, data eller bakgrund.</div>
+        </div>
+        <div class="fw-card">
+          <div class="fw-card-label">F</div>
+          <div class="fw-card-title">Format</div>
+          <div class="fw-card-desc">Ange önskat format — lista, tabell, mejl...</div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Bonus-Övning 8 -->
+  <article class="exercise bonus" id="ex8">
+    <div class="exercise-header" onclick="toggleExercise('ex8')">
+      <div class="ex-number">B</div>
+      <div class="ex-title-wrap">
+        <div class="ex-label">Bonus-Övning 8</div>
+        <div class="ex-title">Analysera Excel-filer</div>
+      </div>
+      <svg class="ex-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="exercise-body">
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt 1 – Skapa budgetfil</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en Excel-tabell för en månadsbudget med kolumner: kategori, budget, faktisk kostnad, differens. Fyll med exempeldata för 10 rader.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+      </div>
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt 2 – Skapa en till fil</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Skapa en liknande excel-fil men med siffror från en annan månad och lite andra kostnader.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+      </div>
+      <div class="prompt-group">
+        <div class="prompt-label">Prompt 3 – Jämför filerna</div>
+        <div class="prompt-box">
+          <pre class="prompt-text">Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer.</pre>
+          <button class="copy-btn" onclick="copyPrompt(this, 'Jämför fil 1 och fil 2. Sammanfatta de största förändringarna och ge tre insikter eller rekommendationer.')">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Kopiera
+          </button>
+        </div>
+        <p class="exercise-note">Ladda upp båda Excel-filerna till Copilot och kör sedan denna prompt.</p>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  &copy; 2025 Asurgent AB &nbsp;·&nbsp; Copilot Chat Training &nbsp;·&nbsp; <a href="https://www.asurgent.se" style="color:var(--accent); text-decoration:none;">asurgent.se</a>
+</footer>
+
+<script>
+  const opened = new Set();
+
+  function toggleExercise(id) {
+    const el = document.getElementById(id);
+    const isOpen = el.classList.contains('open');
+    el.classList.toggle('open', !isOpen);
+    if (!isOpen) opened.add(id);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = 8;
+    const done = opened.size;
+    document.getElementById('progress-text').textContent = done + ' av ' + total + ' övningar';
+    document.getElementById('progress-fill').style.width = (done / total * 100) + '%';
+  }
+
+  function copyPrompt(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Kopierat!';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Kopiera';
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
