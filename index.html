@@ -76,15 +76,19 @@
     .lang-toggle button {
       background: none;
       border: none;
-      font-size: 1.2rem;
-      line-height: 1;
-      padding: 0.3rem 0.55rem;
+      padding: 0.3rem 0.5rem;
       cursor: pointer;
-      opacity: 0.4;
+      opacity: 0.35;
       transition: opacity 0.15s;
+      display: flex;
+      align-items: center;
     }
-    .lang-toggle button.active {
-      opacity: 1;
+    .lang-toggle button.active { opacity: 1; }
+    .lang-toggle button svg {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      display: block;
     }
 
     /* ── HERO ── */
@@ -325,8 +329,24 @@
   <div class="spacer"></div>
   <span class="nav-badge">Copilot Chat Training</span>
   <div class="lang-toggle">
-    <button id="btn-sv" class="active" onclick="setLang('sv')" title="Svenska">🇸🇪</button>
-    <button id="btn-en" onclick="setLang('en')" title="English">🇬🇧</button>
+    <!-- Swedish flag -->
+    <button id="btn-sv" class="active" onclick="setLang('sv')" title="Svenska">
+      <svg viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="16" fill="#006AA7"/>
+        <rect x="7" width="3" height="16" fill="#FECC02"/>
+        <rect y="6.5" width="24" height="3" fill="#FECC02"/>
+      </svg>
+    </button>
+    <!-- UK flag -->
+    <button id="btn-en" onclick="setLang('en')" title="English">
+      <svg viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="16" fill="#012169"/>
+        <path d="M0,0 L24,16 M24,0 L0,16" stroke="#fff" stroke-width="3.2"/>
+        <path d="M0,0 L24,16 M24,0 L0,16" stroke="#C8102E" stroke-width="1.8"/>
+        <path d="M12,0 V16 M0,8 H24" stroke="#fff" stroke-width="5"/>
+        <path d="M12,0 V16 M0,8 H24" stroke="#C8102E" stroke-width="3"/>
+      </svg>
+    </button>
   </div>
 </nav>
 
